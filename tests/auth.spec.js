@@ -1,25 +1,24 @@
-import {test, expect} from '@playwright/test'
+import {test, expect} from '../common/test'
 
 test.describe('Authentication & Authorization', () => {
-  test.beforeEach(async ({page}) => {
-    await page.goto(`/user/login`)
+  test.beforeEach(async ({loginPage}) => {
+    await loginPage.open()
   })
 
-  test('Sign in with existing credentials', async ({page}) => {
-    await page.locator('#normal_login_email').fill(process.env.EMAIL)
-    await page.locator('#normal_login_password').fill(process.env.PASSWORD)
-    await page.locator('button[type="submit"]').click()
+  test('Sign in with existing credentials', async ({page, loginPage}) => {
+    await loginPage.inputEmail.fill(process.env.EMAIL)
+    await loginPage.inputPassword.fill(process.env.PASSWORD)
+    await loginPage.buttonSubmit.click()
     // await expect(await page.getByRole('img', { name: 'user' })).toBeVisible();
     await expect(page.locator('.ant-avatar-square')).toBeVisible()
   })
 
-  test('Sign in with non-existing credentials', async ({page}) => {
-    await page.locator('#normal_login_email').fill('vl1vl2@yahoo.com') //invalid email
-    await page.locator('#normal_login_password').fill('57ThTRTV99qf!5L')
-    await page.locator('button[type="submit"]').click()
+  test('Sign in with non-existing credentials', async ({loginPage}) => {
+    await loginPage.inputEmail.fill('invalid@example.com')
+    await loginPage.inputPassword.fill('invalid')
+    await loginPage.buttonSubmit.click()
 
-    const alertToast = page.getByRole('alert')
-    await expect(alertToast).toBeVisible()
-    await expect(alertToast).toHaveText('User login. Fail')
+    await expect(loginPage.alertToast).toBeVisible()
+    await expect(loginPage.alertToast).toHaveText('User login. Fail')
   })
 })
