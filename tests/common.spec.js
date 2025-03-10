@@ -6,24 +6,24 @@ test.describe('Common', () => {
     await loginPage.logIn(process.env.EMAIL, process.env.PASSWORD)
   })
 
-  test('Navigation', async ({page}) => {
-    await page.getByTestId('topmenu-Курсы').click()
+  test('Navigation', async ({page, navbarPage}) => {
+    await navbarPage.navbar.courses.click()
     await expect(page).toHaveURL('/course')
     await expect(page.getByText('Курсы программирования и тестирования')).toBeVisible()
 
-    await page.getByTestId('topmenu-Задачи').click()
+    await navbarPage.navbar.tasks.click()
     await expect(page).toHaveURL('/challenge?limit=30&page=1')
     await expect(page.getByText('Кодинг задачи')).toBeVisible()
 
-    await page.getByTestId('topmenu-Интервью').click()
+    await navbarPage.navbar.interviews.click()
     await expect(page).toHaveURL('/flash')
     await expect(page.getByText('Interview practice cards')).toBeVisible()
 
-    await page.getByTestId('topmenu-Дневник').click()
+    await navbarPage.navbar.diary.click()
     await expect(page).toHaveURL('/diary?page=1')
     await expect(page.getByText('Daily reports')).toBeVisible()
 
-    await page.getByTestId('topmenu-Группы').click()
+    await navbarPage.navbar.groups.click()
     await expect(page).toHaveURL('/group')
     await expect(page.getByText('Groups').first()).toBeVisible()
   })
