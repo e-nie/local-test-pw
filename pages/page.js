@@ -5,5 +5,6 @@ export class Page {
     this.page = page
     this.alertToast = page.getByRole('alert') // My selector option
     // this.toast = page.locator('.ant-notification-notice-message')// Dima's selector option
+    this.alertMsg = page.locator('.ant-alert-message')
   }
 }
